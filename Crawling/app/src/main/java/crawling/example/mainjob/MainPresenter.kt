@@ -48,10 +48,8 @@ class MainPresenter(private val view: Contract.MainView) : Contract.MainPresente
     override fun changeStudentIdentityNum(identity:String) {
 
         try {
-            identity.toInt()
             url=url.replace(studentNumber.toString(), identity)
             studentNumber = identity.toInt()
-
         }
         catch (e:NumberFormatException){
             e.printStackTrace()

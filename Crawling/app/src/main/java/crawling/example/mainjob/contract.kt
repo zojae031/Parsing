@@ -1,7 +1,5 @@
 package crawling.example.mainjob
 
-import android.widget.EditText
-
 interface Contract{
     interface MainView{
         fun alertToast(text:String)
