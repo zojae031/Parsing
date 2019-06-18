@@ -68,7 +68,7 @@ object Parser {
             Log.e("parse Data : ", parseData.html())
 
             val bundle = Bundle()
-            bundle.putSerializable("html",parseData.text())
+            bundle.putSerializable("html",parseData.first().toString())
             msg.data = bundle
             handler.sendMessage(msg)
 

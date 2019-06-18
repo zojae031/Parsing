@@ -78,7 +78,8 @@ class MainPresenter(private val view: Contract.MainView) : Contract.MainPresente
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             with(msg?.data) {
-                view.showParseInfo(this.toString())
+                val result = this?.getString("html")
+                view.showParseInfo(result!!)
             }
 
         }
