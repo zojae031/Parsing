@@ -4,6 +4,10 @@ import android.os.Handler
 import android.os.Message
 import android.util.Log
 import crawling.example.util.Parser
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.FlowableEmitter
+import io.reactivex.FlowableOnSubscribe
 
 class MainPresenter(private val view: Contract.MainView) : Contract.MainPresenter {
     private val handler = mHandler()
@@ -46,14 +50,12 @@ class MainPresenter(private val view: Contract.MainView) : Contract.MainPresente
         view.setEditText(studentNumber.toString())
     }
     override fun changeStudentIdentityNum(identity:String) {
-
         try {
             url=url.replace(studentNumber.toString(), identity)
             studentNumber = identity.toInt()
         }
         catch (e:NumberFormatException){
             e.printStackTrace()
-
         }
 
         view.drawUserImage(url)
