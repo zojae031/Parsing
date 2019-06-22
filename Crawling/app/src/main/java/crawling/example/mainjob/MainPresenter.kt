@@ -8,6 +8,8 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.FlowableEmitter
 import io.reactivex.FlowableOnSubscribe
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 
 class MainPresenter(private val view: Contract.MainView) : Contract.MainPresenter {
     private val handler = mHandler()
@@ -49,39 +51,42 @@ class MainPresenter(private val view: Contract.MainView) : Contract.MainPresente
         view.drawUserImage(url)
         view.setEditText(studentNumber.toString())
     }
-    override fun changeStudentIdentityNum(identity:String) {
+
+    override fun changeStudentIdentityNum(identity: String) {
         try {
-            url=url.replace(studentNumber.toString(), identity)
+            url = url.replace(studentNumber.toString(), identity)
             studentNumber = identity.toInt()
-        }
-        catch (e:NumberFormatException){
+        } catch (e: NumberFormatException) {
             e.printStackTrace()
         }
 
         view.drawUserImage(url)
     }
-    private fun changeUrl(vector:Vector) {
+
+    private fun changeUrl(vector: Vector) {
         val before = studentNumber
-        when(vector){
-            Vector.LEFT ->{
+        when (vector) {
+            Vector.LEFT -> {
                 studentNumber--
             }
 
-            Vector.RIGHT ->{
+            Vector.RIGHT -> {
                 studentNumber++
             }
         }
-        url=url.replace(before.toString(), studentNumber.toString())
+        url = url.replace(before.toString(), studentNumber.toString())
     }
-
 
 
     private inner class mHandler : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             with(msg?.data) {
-                val result = this?.getString("html")
-                view.showParseInfo(result!!)
+                val result = this?.get("html") as Elements
+                val name = result[2].text()
+                val department = result[3].text()
+                val professor = result[4].text()
+                view.showParseInfo(name,department,professor)
             }
 
         }

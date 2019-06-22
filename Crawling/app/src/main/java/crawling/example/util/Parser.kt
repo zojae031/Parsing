@@ -65,14 +65,19 @@ object Parser {
                 .data(data)
                 .execute()
 
-            //사용자 정보 div 파싱
-            val parseData = parseR.parse().select("div.pfCard")
+            //사용자 정보 크롤링
+            val privateData =
+                Jsoup.connect("https://udream.sejong.ac.kr/Office/Teacher/ProfileGetData.aspx?mode=2&pid=N")
+                    .cookies(session)
+                    .method(Connection.Method.POST)
+                    .execute()
+            val data = privateData.parse().select("div")
 
-            Log.e("parse Data : ", parseData.html())
 
             // 핸들러를 통해 MainThread로 전송
             val bundle = Bundle()
-            bundle.putSerializable("html", parseData.first().toString())
+            bundle.putSerializable("html", data)
+
             msg.data = bundle
             handler.sendMessage(msg)
 

@@ -13,6 +13,8 @@ import crawling.example.R
 import crawling.example.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), Contract.MainView {
+
+
     private val binding : ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this,
         R.layout.activity_main
@@ -51,15 +53,15 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
         })
 
     }
-
-    override fun showParseInfo(text: String) {
+    override fun showParseInfo(name: String, department: String, professor: String) {
         binding.text.visibility = View.VISIBLE
         binding.left.visibility = View.INVISIBLE
         binding.right.visibility = View.INVISIBLE
         binding.image.visibility = View.INVISIBLE
         binding.identity.visibility = View.INVISIBLE
-        binding.text.text = text
+        binding.text.text = "이름 : $name \n학과 : $department\n담당교수 : $professor"
     }
+
 
     override fun showStudent() {
         binding.text.visibility = View.INVISIBLE
