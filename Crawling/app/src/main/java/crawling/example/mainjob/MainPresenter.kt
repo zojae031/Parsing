@@ -2,13 +2,7 @@ package crawling.example.mainjob
 
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import crawling.example.util.Parser
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.FlowableEmitter
-import io.reactivex.FlowableOnSubscribe
-import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
 class MainPresenter(private val view: Contract.MainView) : Contract.MainPresenter {
@@ -32,8 +26,11 @@ class MainPresenter(private val view: Contract.MainView) : Contract.MainPresente
 
     }
 
-    override fun parseBtnClicked() {
-        Parser.parse(handler)
+    override fun parseBtnClicked(id: String, pw: String) {
+
+        Parser.parse(handler, id, pw)
+
+
     }
 
     override fun studentBtnClicked() {
@@ -86,7 +83,7 @@ class MainPresenter(private val view: Contract.MainView) : Contract.MainPresente
                 val name = result[2].text()
                 val department = result[3].text()
                 val professor = result[4].text()
-                view.showParseInfo(name,department,professor)
+                view.showParseInfo(name, department, professor)
             }
 
         }

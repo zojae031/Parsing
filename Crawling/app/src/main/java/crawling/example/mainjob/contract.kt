@@ -9,7 +9,7 @@ interface Contract{
         fun setEditText(text:String)
     }
     interface MainPresenter{
-        fun parseBtnClicked()
+        fun parseBtnClicked(id:String,pw:String)
         fun studentBtnClicked()
         fun leftBtnClicked()
         fun rightBtnClicked()

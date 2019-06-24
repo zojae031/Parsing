@@ -15,20 +15,42 @@ import crawling.example.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity(), Contract.MainView {
 
 
-    private val binding : ActivityMainBinding by lazy {
-        DataBindingUtil.setContentView<ActivityMainBinding>(this,
-        R.layout.activity_main
-    )}
+    private val binding: ActivityMainBinding by lazy {
+        DataBindingUtil.setContentView<ActivityMainBinding>(
+            this,
+            R.layout.activity_main
+        )
+    }
 
     private val presenter = MainPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.onCreate()
-        binding.parse.setOnClickListener{
-            presenter.parseBtnClicked()
+        binding.parsing.setOnClickListener {
+            //파싱 하기
+            if(binding.id.text.toString()!="" || binding.password.text.toString()!=""){
+                presenter.parseBtnClicked(binding.id.text.toString(),binding.password.text.toString())
+            }
+            else{
+                Toast.makeText(this,"정보 입력하시오.",Toast.LENGTH_SHORT).show()
+            }
+
         }
-        binding.student.setOnClickListener{
+        binding.parse.setOnClickListener {
+            //파스 입력 정보 생성
+            binding.parsing.visibility = View.VISIBLE
+            binding.text.visibility = View.VISIBLE
+            binding.id.visibility = View.VISIBLE
+            binding.password.visibility = View.VISIBLE
+
+            binding.parse.visibility = View.INVISIBLE
+            binding.left.visibility = View.INVISIBLE
+            binding.right.visibility = View.INVISIBLE
+            binding.image.visibility = View.INVISIBLE
+            binding.identity.visibility = View.INVISIBLE
+        }
+        binding.student.setOnClickListener {
             presenter.studentBtnClicked()
         }
         binding.left.setOnClickListener {
@@ -37,7 +59,7 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
         binding.right.setOnClickListener {
             presenter.rightBtnClicked()
         }
-        binding.identity.addTextChangedListener(object:TextWatcher{
+        binding.identity.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 presenter.changeStudentIdentityNum(s.toString())
             }
@@ -53,8 +75,11 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
         })
 
     }
+
     override fun showParseInfo(name: String, department: String, professor: String) {
         binding.text.visibility = View.VISIBLE
+
+
         binding.left.visibility = View.INVISIBLE
         binding.right.visibility = View.INVISIBLE
         binding.image.visibility = View.INVISIBLE
@@ -65,6 +90,11 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
 
     override fun showStudent() {
         binding.text.visibility = View.INVISIBLE
+        binding.id.visibility = View.INVISIBLE
+        binding.password.visibility = View.INVISIBLE
+        binding.parsing.visibility = View.INVISIBLE
+
+        binding.parse.visibility = View.VISIBLE
         binding.left.visibility = View.VISIBLE
         binding.right.visibility = View.VISIBLE
         binding.image.visibility = View.VISIBLE
@@ -84,12 +114,13 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
     }
 
     @SuppressLint("ShowToast")
-    override fun alertToast(text : String) {
-        Toast.makeText(this,text,Toast.LENGTH_SHORT)
+    override fun alertToast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT)
     }
 
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()
     }
+
 }
