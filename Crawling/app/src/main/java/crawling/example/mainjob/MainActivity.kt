@@ -1,13 +1,13 @@
 package crawling.example.mainjob
 
 import android.annotation.SuppressLint
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import crawling.example.R
 import crawling.example.databinding.ActivityMainBinding
@@ -29,11 +29,13 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
         presenter.onCreate()
         binding.parsing.setOnClickListener {
             //파싱 하기
-            if(binding.id.text.toString()!="" || binding.password.text.toString()!=""){
-                presenter.parseBtnClicked(binding.id.text.toString(),binding.password.text.toString())
-            }
-            else{
-                Toast.makeText(this,"정보 입력하시오.",Toast.LENGTH_SHORT).show()
+            if (binding.id.text.toString() != "" || binding.password.text.toString() != "") {
+                presenter.parseBtnClicked(
+                    binding.id.text.toString(),
+                    binding.password.text.toString()
+                )
+            } else {
+                Toast.makeText(this, "정보 입력하시오.", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -104,7 +106,6 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
     override fun drawUserImage(url: String) {
         Glide.with(this@MainActivity)
             .load(url)
-            .asBitmap()
             .fitCenter()
             .into(binding.image)
     }
