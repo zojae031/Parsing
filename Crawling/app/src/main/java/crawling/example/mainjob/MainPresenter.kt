@@ -2,11 +2,22 @@ package crawling.example.mainjob
 
 import android.os.Handler
 import android.os.Message
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import crawling.example.data.StudentInfo
 import crawling.example.util.Parser
 import org.jsoup.select.Elements
 
 class MainPresenter(private val view: Contract.MainView) : Contract.MainPresenter {
     private val handler = mHandler()
+
+    private val _student = MutableLiveData<StudentInfo>().apply { this.value = StudentInfo() }
+    val student: LiveData<StudentInfo>
+        get() = _student
+
+    private val _buttonFlag = MutableLiveData<Boolean>().apply { this.value = true }
+    val buttonFlag: LiveData<Boolean>
+        get() = _buttonFlag
 
     enum class Vector {
         LEFT,
@@ -27,14 +38,13 @@ class MainPresenter(private val view: Contract.MainView) : Contract.MainPresente
     }
 
     override fun parseBtnClicked(id: String, pw: String) {
-
+        _buttonFlag.value = true
         Parser.parse(handler, id, pw)
-
 
     }
 
     override fun studentBtnClicked() {
-        view.showStudent()
+        _buttonFlag.value = false
     }
 
     override fun leftBtnClicked() {

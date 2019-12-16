@@ -3,6 +3,16 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+
+        <variable
+                name="presenter"
+                type="crawling.example.mainjob.MainPresenter" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -12,6 +22,7 @@
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="@{presenter.buttonFlag ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -24,6 +35,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Parsing"
+                android:visibility="@{presenter.buttonFlag ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -33,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:onClick="@{ () -> presenter.studentBtnClicked()}"
                 android:text="Student"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -41,6 +54,7 @@
                 android:id="@+id/image"
                 android:layout_width="223dp"
                 android:layout_height="218dp"
+
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -48,7 +62,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher"
-                android:visibility="invisible"
+                android:visibility="@{presenter.buttonFlag ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +76,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="←"
-                android:visibility="invisible"
+                android:visibility="@{presenter.buttonFlag ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toTopOf="@+id/parse"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text" />
@@ -75,12 +89,13 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="→"
-                android:visibility="invisible"
+                android:visibility="@{presenter.buttonFlag ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toTopOf="@+id/student"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text" />
 
         <EditText
+
                 android:id="@+id/identity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +104,7 @@
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:visibility="invisible"
+                android:visibility="@{presenter.buttonFlag ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintEnd_toStartOf="@+id/right"
                 app:layout_constraintStart_toEndOf="@+id/left"
                 app:layout_constraintTop_toBottomOf="@+id/image" />
@@ -104,6 +119,8 @@
                 android:ems="10"
                 android:hint="학번"
                 android:inputType="textPersonName"
+                android:text="@={presenter.student.id}"
+                android:visibility="@{presenter.buttonFlag ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -118,6 +135,8 @@
                 android:ems="10"
                 android:hint="패스워드"
                 android:inputType="textPassword"
+                android:text="@={presenter.student.pw}"
+                android:visibility="@{presenter.buttonFlag ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/id" />
@@ -128,8 +147,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
+                android:onClick="@{ () -> presenter.parseBtnClicked(presenter.student.id,presenter.student.pw) }"
                 android:text="PARSE"
-                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

@@ -27,34 +27,8 @@ class MainActivity : AppCompatActivity(), Contract.MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.onCreate()
-        binding.parsing.setOnClickListener {
-            //파싱 하기
-            if (binding.id.text.toString() != "" || binding.password.text.toString() != "") {
-                presenter.parseBtnClicked(
-                    binding.id.text.toString(),
-                    binding.password.text.toString()
-                )
-            } else {
-                Toast.makeText(this, "정보 입력하시오.", Toast.LENGTH_SHORT).show()
-            }
-
-        }
-        binding.parse.setOnClickListener {
-            //파스 입력 정보 생성
-            binding.parsing.visibility = View.VISIBLE
-            binding.text.visibility = View.VISIBLE
-            binding.id.visibility = View.VISIBLE
-            binding.password.visibility = View.VISIBLE
-
-            binding.parse.visibility = View.INVISIBLE
-            binding.left.visibility = View.INVISIBLE
-            binding.right.visibility = View.INVISIBLE
-            binding.image.visibility = View.INVISIBLE
-            binding.identity.visibility = View.INVISIBLE
-        }
-        binding.student.setOnClickListener {
-            presenter.studentBtnClicked()
-        }
+        binding.presenter = presenter
+        binding.lifecycleOwner = this
         binding.left.setOnClickListener {
             presenter.leftBtnClicked()
         }
